@@ -330,7 +330,7 @@ dd {
 
 .pi-profile {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: 300px minmax(0, 1fr);
   gap: clamp(28px, 5vw, 52px);
   align-items: start;
   max-width: 1040px;
@@ -338,8 +338,9 @@ dd {
 
 .pi-avatar {
   display: block;
-  width: 220px;
-  height: 220px;
+  width: min(300px, 100%);
+  height: auto;
+  aspect-ratio: 1;
   border-radius: 8px;
   border: 1px solid var(--line);
   object-fit: cover;
