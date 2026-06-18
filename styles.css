@@ -138,7 +138,8 @@ a {
 }
 
 .page-hero h1 {
-  font-size: clamp(3rem, 7vw, 6.4rem);
+  font-size: clamp(2.35rem, 4vw, 3.8rem);
+  line-height: 1.02;
 }
 
 .page-hero > p:last-child {
