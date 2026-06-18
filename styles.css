@@ -375,13 +375,19 @@ dd {
   font-weight: 850;
 }
 
+.profile-honors,
 .profile-experience {
   margin-top: 34px;
 }
 
+.profile-honors h4,
 .profile-experience h4 {
   margin-bottom: 20px;
   font-size: 1.25rem;
+}
+
+.profile-honors .award-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .wide-copy {
@@ -565,7 +571,8 @@ li + li {
     display: block;
   }
 
-  .award-list {
+  .award-list,
+  .profile-honors .award-list {
     grid-template-columns: 1fr;
   }
 }
