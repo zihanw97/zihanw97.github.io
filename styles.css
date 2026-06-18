@@ -442,8 +442,8 @@ dd {
   width: min(100%, 380px);
 }
 
-.research-detail .wide-figure {
-  width: min(100%, 820px);
+.research-detail .codesign-figure {
+  width: min(100%, 440px);
 }
 
 .research-detail .compact-figure {
