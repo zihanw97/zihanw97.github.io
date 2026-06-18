@@ -225,6 +225,10 @@ h3 {
   padding: 86px clamp(18px, 5vw, 48px);
 }
 
+.section[id] {
+  scroll-margin-top: 88px;
+}
+
 .band {
   max-width: none;
   background: var(--white);
