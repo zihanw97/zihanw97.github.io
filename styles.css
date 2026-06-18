@@ -57,6 +57,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  font-size: 1.05rem;
   font-weight: 800;
   text-decoration: none;
 }
@@ -74,12 +75,16 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 18px;
-  font-size: 0.95rem;
+  gap: 8px 12px;
+  font-size: 1.05rem;
   font-weight: 650;
 }
 
 .nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 7px 5px;
   text-decoration: none;
 }
 
