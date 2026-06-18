@@ -5,7 +5,8 @@
   --paper: #f6f7f8;
   --white: #ffffff;
   --green: #4f5d6b;
-  --gold: #8d744c;
+  --gold: #725a34;
+  --gold-bright: #f0d58a;
   --blue: #5f7184;
   --charcoal: #25282c;
   --shadow: 0 18px 50px rgba(31, 35, 40, 0.12);
@@ -89,10 +90,15 @@ a {
 }
 
 .nav a.active {
-  color: var(--gold);
+  color: var(--gold-bright);
 }
 
 .nav a:hover {
+  color: var(--gold-bright);
+}
+
+.site-header.is-scrolled .nav a.active,
+.site-header.is-scrolled .nav a:hover {
   color: var(--gold);
 }
 
@@ -164,6 +170,11 @@ a {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.hero .eyebrow,
+.page-hero .eyebrow {
+  color: var(--gold-bright);
 }
 
 h1,
