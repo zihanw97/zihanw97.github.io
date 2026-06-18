@@ -142,9 +142,14 @@ a {
   line-height: 1.02;
 }
 
-.page-hero > p:last-child {
+.page-hero > p:not(.eyebrow) {
   margin-bottom: 0;
   font-size: clamp(1.05rem, 2vw, 1.28rem);
+}
+
+.page-hero > .text-link {
+  display: inline-block;
+  margin-top: 16px;
 }
 
 .eyebrow {
