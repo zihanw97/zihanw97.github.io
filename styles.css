@@ -438,6 +438,10 @@ dd {
   margin-left: auto;
 }
 
+.research-detail .autonomous-figure {
+  width: min(100%, 380px);
+}
+
 .research-detail .wide-figure {
   width: min(100%, 820px);
 }
