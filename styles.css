@@ -289,6 +289,15 @@ dd {
   font-weight: 700;
 }
 
+.useful-links {
+  display: grid;
+  gap: 6px;
+}
+
+.useful-links a {
+  color: var(--green);
+}
+
 .research-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
