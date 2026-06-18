@@ -380,6 +380,12 @@ dd {
   font-size: 0.9rem;
 }
 
+.overview-figure {
+  width: 85%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .research-direction-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
