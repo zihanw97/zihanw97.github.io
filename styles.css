@@ -446,8 +446,8 @@ dd {
   width: min(100%, 440px);
 }
 
-.research-detail .compact-figure {
-  width: min(100%, 640px);
+.research-detail .uncertainty-figure {
+  width: min(100%, 420px);
 }
 
 .research-summary {
