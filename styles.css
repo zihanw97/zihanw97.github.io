@@ -433,21 +433,38 @@ dd {
 }
 
 .research-detail .research-figure {
-  max-width: 980px;
+  width: min(100%, 760px);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .research-detail .wide-figure {
-  max-width: none;
+  width: min(100%, 820px);
 }
 
 .research-detail .compact-figure {
-  max-width: 760px;
+  width: min(100%, 640px);
 }
 
 .research-summary {
   max-width: 900px;
   margin-bottom: 0;
   font-size: 1.1rem;
+}
+
+.selected-articles {
+  max-width: 960px;
+  border-top: 1px solid var(--line);
+  padding-top: 34px;
+}
+
+.selected-articles h2 {
+  margin-bottom: 24px;
+  font-size: 1.55rem;
+}
+
+.selected-articles .pub-list {
+  margin-bottom: 0;
 }
 
 .direction-nav {
