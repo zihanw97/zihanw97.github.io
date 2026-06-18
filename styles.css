@@ -384,8 +384,12 @@ dd {
   font-size: 1.25rem;
 }
 
-.profile-honors .award-list {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.profile-honors-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.6;
 }
 
 .wide-copy {
@@ -479,27 +483,6 @@ li + li {
   margin-top: 10px;
 }
 
-.awards {
-  padding-top: 20px;
-}
-
-.award-list {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
-  padding: 0;
-  list-style: none;
-}
-
-.award-list li {
-  min-height: 138px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 18px;
-  background: var(--white);
-  font-weight: 760;
-}
-
 .contact {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 360px;
@@ -569,10 +552,6 @@ li + li {
     display: block;
   }
 
-  .award-list,
-  .profile-honors .award-list {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 560px) {
