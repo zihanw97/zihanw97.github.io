@@ -346,15 +346,13 @@ dd {
 }
 
 .pi-avatar {
-  display: grid;
+  display: block;
   width: 112px;
   height: 112px;
-  place-items: center;
   border-radius: 8px;
-  color: var(--white);
-  background: linear-gradient(135deg, var(--green), #9aa4af);
-  font-size: 1.7rem;
-  font-weight: 900;
+  border: 1px solid var(--line);
+  object-fit: cover;
+  object-position: center 32%;
 }
 
 .role {
