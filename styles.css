@@ -463,13 +463,11 @@ dd {
   padding-left: 22px;
 }
 
-.teaching-stack {
-  display: grid;
+.course-section {
   max-width: 900px;
-  gap: 48px;
 }
 
-.teaching-stack > div {
+.course-section > div {
   border-left: 4px solid var(--blue);
   padding-left: 22px;
 }
