@@ -463,6 +463,17 @@ dd {
   padding-left: 22px;
 }
 
+.teaching-stack {
+  display: grid;
+  max-width: 900px;
+  gap: 48px;
+}
+
+.teaching-stack > div {
+  border-left: 4px solid var(--blue);
+  padding-left: 22px;
+}
+
 .opening-columns h2 {
   font-size: clamp(1.6rem, 3vw, 2.15rem);
 }
