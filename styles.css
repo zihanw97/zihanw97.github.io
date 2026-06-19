@@ -721,7 +721,7 @@ dd {
 
 .visitor-map {
   display: grid;
-  min-height: 360px;
+  min-height: 220px;
   place-items: center;
   overflow: hidden;
   border: 1px solid var(--line);
