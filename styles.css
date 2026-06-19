@@ -161,6 +161,11 @@ a {
 .page-hero > .text-link {
   display: inline-block;
   margin-top: 16px;
+  color: var(--gold-bright);
+}
+
+.page-hero > .text-link:hover {
+  color: var(--white);
 }
 
 .eyebrow {
