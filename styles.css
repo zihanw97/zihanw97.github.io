@@ -664,6 +664,36 @@ dd {
   line-height: 1.55;
 }
 
+.recruitment-content {
+  max-width: 920px;
+}
+
+.recruitment-content > p:first-child {
+  max-width: 820px;
+  font-size: 1.14rem;
+}
+
+.recruitment-block {
+  max-width: 820px;
+  margin-top: 42px;
+}
+
+.recruitment-block h2 {
+  margin-bottom: 16px;
+  font-size: 1.55rem;
+}
+
+.recruitment-block a:not(.text-link) {
+  color: var(--green);
+  font-weight: 750;
+}
+
+.recruitment-contact {
+  width: min(100%, 420px);
+  margin-top: 42px;
+  box-shadow: none;
+}
+
 .opportunity-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
