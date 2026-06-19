@@ -715,6 +715,25 @@ dd {
   box-shadow: none;
 }
 
+.visitor-map-block {
+  max-width: 620px;
+}
+
+.visitor-map {
+  display: grid;
+  min-height: 360px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.visitor-map canvas,
+.visitor-map iframe {
+  max-width: 100%;
+}
+
 .opportunity-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
