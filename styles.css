@@ -716,17 +716,14 @@ dd {
 }
 
 .visitor-map-block {
-  max-width: 620px;
+  width: fit-content;
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .visitor-map {
-  display: grid;
-  min-height: 220px;
-  place-items: center;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--white);
+  line-height: 0;
 }
 
 .visitor-map canvas,
