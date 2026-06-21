@@ -561,9 +561,11 @@ dd {
 }
 
 .research-direction-card {
+  position: relative;
   display: flex;
   min-height: 300px;
   flex-direction: column;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-top: 4px solid var(--green);
   border-radius: 8px;
@@ -573,10 +575,47 @@ dd {
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
-.research-direction-card:hover {
+.research-direction-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.74), rgba(246, 247, 248, 0.88)),
+    var(--direction-image) center / contain no-repeat;
+  content: "";
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 180ms ease, transform 240ms ease;
+}
+
+.research-direction-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.research-direction-card:hover,
+.research-direction-card:focus-visible {
   border-color: var(--blue);
   box-shadow: var(--shadow);
   transform: translateY(-2px);
+}
+
+.research-direction-card:hover::before,
+.research-direction-card:focus-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.research-direction-autonomous {
+  --direction-image: url("assets/research-autonomous-agents.png");
+}
+
+.research-direction-codesign {
+  --direction-image: url("assets/research-generative-codesign.png");
+}
+
+.research-direction-reliable {
+  --direction-image: url("assets/research-uncertainty-propagation.png");
 }
 
 .research-direction-card h2 {
