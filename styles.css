@@ -501,11 +501,11 @@ dd {
 }
 
 .page-card-publications {
-  --card-image: url("assets/research-autonomous-agents.png");
+  --card-image: url("assets/research-hero.png");
 }
 
 .page-card-teaching {
-  --card-image: url("assets/research-uncertainty-propagation.png");
+  --card-image: url("assets/research-hero.png");
 }
 
 .page-card-join {
