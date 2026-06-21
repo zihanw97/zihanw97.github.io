@@ -323,6 +323,100 @@ dd {
   color: var(--green);
 }
 
+.lab-vision-copy {
+  max-width: 860px;
+  margin-bottom: 42px;
+  font-size: 1.18rem;
+}
+
+.home-info-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.2fr) minmax(220px, 0.75fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 30px 0;
+}
+
+.home-info-panel {
+  min-width: 0;
+  padding: 0 28px;
+}
+
+.home-info-panel:first-child {
+  padding-left: 0;
+}
+
+.home-info-panel + .home-info-panel {
+  border-left: 1px solid var(--line);
+}
+
+.home-info-panel h3 {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+}
+
+.home-info-panel h3 a {
+  text-decoration: none;
+}
+
+.home-info-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.home-lab-identity,
+.home-pi-summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.home-lab-icon {
+  display: block;
+  width: 120px;
+  height: 120px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.home-pi-summary > img {
+  display: block;
+  width: 92px;
+  height: 112px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: center 32%;
+}
+
+.home-pi-summary > div > p:not(.eyebrow) {
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+
+.home-pi-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
+.home-pi-links a,
+.home-quick-links a {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.home-quick-links {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+}
+
+.home-quick-links .eyebrow {
+  margin-bottom: 3px;
+}
+
 .research-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -805,6 +899,7 @@ li + li {
   }
 
   .intro-grid,
+  .home-info-grid,
   .research-grid,
   .research-direction-grid,
   .page-card-grid,
@@ -812,6 +907,21 @@ li + li {
   .opportunity-grid,
   .contact {
     grid-template-columns: 1fr;
+  }
+
+  .home-info-grid {
+    gap: 28px;
+  }
+
+  .home-info-panel,
+  .home-info-panel:first-child {
+    padding: 0;
+  }
+
+  .home-info-panel + .home-info-panel {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+    padding-top: 28px;
   }
 
   .pi-profile {
