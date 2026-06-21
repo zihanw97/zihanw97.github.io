@@ -430,8 +430,10 @@ dd {
 }
 
 .page-card {
+  position: relative;
   display: block;
   min-height: 160px;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-top: 4px solid var(--green);
   border-radius: 8px;
@@ -439,7 +441,25 @@ dd {
   color: var(--ink);
   background: #f1f3f5;
   text-decoration: none;
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition: color 180ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.page-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(rgba(31, 35, 40, 0.72), rgba(31, 35, 40, 0.82)),
+    var(--card-image) center / cover no-repeat;
+  content: "";
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 180ms ease, transform 240ms ease;
+}
+
+.page-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .page-card .number {
@@ -450,9 +470,50 @@ dd {
   margin-bottom: 0;
 }
 
-.page-card:hover {
+.page-card:hover,
+.page-card:focus-visible {
+  color: var(--white);
   box-shadow: var(--shadow);
   transform: translateY(-2px);
+}
+
+.page-card:hover::before,
+.page-card:focus-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.page-card:hover .number,
+.page-card:focus-visible .number {
+  color: var(--gold-bright);
+}
+
+.page-card-research {
+  --card-image: url("assets/research-thrusts-overview.png");
+}
+
+.page-card-news {
+  --card-image: url("assets/research-hero.png");
+}
+
+.page-card-people {
+  --card-image: url("assets/zihan-wang-headshot.jpg");
+}
+
+.page-card-publications {
+  --card-image: url("assets/research-autonomous-agents.png");
+}
+
+.page-card-teaching {
+  --card-image: url("assets/research-uncertainty-propagation.png");
+}
+
+.page-card-join {
+  --card-image: url("assets/aim2-lab-icon.png");
+}
+
+.page-card-people::before {
+  background-position: center 28%;
 }
 
 .research-grid article {
