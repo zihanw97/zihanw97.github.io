@@ -268,7 +268,7 @@ if (metamaterialCanvas) {
     pointer.x = event.clientX;
     pointer.y = event.clientY;
     targetRotation.y += dx * Math.PI * 0.42;
-    targetRotation.x += dy * Math.PI * 0.26;
+    targetRotation.x -= dy * Math.PI * 0.26;
     targetRotation.x = Math.max(-0.82, Math.min(0.56, targetRotation.x));
     rotation.x = targetRotation.x;
     rotation.y = targetRotation.y;
