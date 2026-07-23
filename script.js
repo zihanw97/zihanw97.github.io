@@ -143,8 +143,24 @@ if (metamaterialCanvas) {
     const strutMap = new Map();
     const nodes = [];
     const struts = [];
-    const grid = [-1, -0.33, 0.33, 1];
-    const centers = [-0.665, 0, 0.665];
+    const corners = [
+      [-1, -1, -1],
+      [1, -1, -1],
+      [-1, 1, -1],
+      [1, 1, -1],
+      [-1, -1, 1],
+      [1, -1, 1],
+      [-1, 1, 1],
+      [1, 1, 1]
+    ];
+    const faceCenters = [
+      [0, 0, -1],
+      [0, 0, 1],
+      [0, -1, 0],
+      [0, 1, 0],
+      [-1, 0, 0],
+      [1, 0, 0]
+    ];
 
     const keyForPoint = (point) => point.map((value) => value.toFixed(3)).join(",");
     const addNode = (point) => {
@@ -168,55 +184,49 @@ if (metamaterialCanvas) {
       }
     };
 
-    for (let ix = 0; ix < grid.length; ix += 1) {
-      for (let iy = 0; iy < grid.length; iy += 1) {
-        for (let iz = 0; iz < grid.length; iz += 1) {
-          addNode([grid[ix], grid[iy], grid[iz]]);
-        }
-      }
-    }
+    corners.forEach(addNode);
+    faceCenters.forEach(addNode);
 
-    for (let ix = 0; ix < centers.length; ix += 1) {
-      for (let iy = 0; iy < centers.length; iy += 1) {
-        for (let iz = 0; iz < centers.length; iz += 1) {
-          const center = [centers[ix], centers[iy], centers[iz]];
-          const corners = [
-            [grid[ix], grid[iy], grid[iz]],
-            [grid[ix + 1], grid[iy], grid[iz]],
-            [grid[ix], grid[iy + 1], grid[iz]],
-            [grid[ix + 1], grid[iy + 1], grid[iz]],
-            [grid[ix], grid[iy], grid[iz + 1]],
-            [grid[ix + 1], grid[iy], grid[iz + 1]],
-            [grid[ix], grid[iy + 1], grid[iz + 1]],
-            [grid[ix + 1], grid[iy + 1], grid[iz + 1]]
-          ];
-          corners.forEach((corner) => addStrut(center, corner, "diagonal"));
-        }
-      }
-    }
+    const edgePairs = [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 3],
+      [4, 5],
+      [4, 6],
+      [5, 7],
+      [6, 7],
+      [0, 4],
+      [1, 5],
+      [2, 6],
+      [3, 7]
+    ];
+    edgePairs.forEach(([a, b]) => addStrut(corners[a], corners[b], "frame"));
 
-    for (let i = 0; i < grid.length - 1; i += 1) {
-      for (let j = 0; j < grid.length; j += 1) {
-        for (let k = 0; k < grid.length; k += 1) {
-          addStrut([grid[i], grid[j], grid[k]], [grid[i + 1], grid[j], grid[k]], "frame");
-          addStrut([grid[j], grid[i], grid[k]], [grid[j], grid[i + 1], grid[k]], "frame");
-          addStrut([grid[j], grid[k], grid[i]], [grid[j], grid[k], grid[i + 1]], "frame");
-        }
-      }
-    }
+    faceCenters.forEach((center) => {
+      corners
+        .filter((corner) =>
+          corner.some((value, index) => center[index] !== 0 && value === center[index])
+        )
+        .forEach((corner) => addStrut(center, corner, "diagonal"));
+    });
+
+    addStrut(faceCenters[0], faceCenters[1], "spine");
+    addStrut(faceCenters[2], faceCenters[3], "spine");
+    addStrut(faceCenters[4], faceCenters[5], "spine");
 
     struts
       .sort((a, b) => a.z - b.z)
       .forEach((strut) => {
-        const width = strut.type === "frame" ? canvasSize * 0.012 : canvasSize * 0.016;
-        const alpha = strut.type === "frame" ? 0.82 : 1;
+        const width = strut.type === "spine" ? canvasSize * 0.017 : canvasSize * 0.015;
+        const alpha = strut.type === "frame" ? 0.9 : 1;
         drawStrut(strut.start, strut.end, width, alpha);
       });
 
     nodes
       .map((point) => ({ point, z: projectPoint(point).z }))
       .sort((a, b) => a.z - b.z)
-      .forEach(({ point }) => drawNode(point, 0.045, 1));
+      .forEach(({ point }) => drawNode(point, 0.052, 1));
   };
 
   const resizeMetamaterial = () => {

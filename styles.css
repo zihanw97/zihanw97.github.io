@@ -196,9 +196,9 @@ a {
 
 .hero-interactive-model {
   z-index: 1;
-  inset: auto clamp(18px, 5vw, 72px) 15% auto;
-  width: min(25vw, 340px);
-  height: min(25vw, 340px);
+  inset: auto clamp(18px, 5vw, 72px) 11% auto;
+  width: min(34vw, 480px);
+  height: min(34vw, 480px);
   cursor: grab;
   filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.3));
   opacity: 1;
@@ -1153,10 +1153,10 @@ li + li {
 
   .hero-interactive-model {
     right: 4vw;
-    bottom: 9%;
-    width: min(40vw, 280px);
-    height: min(40vw, 280px);
-    opacity: 0.9;
+    bottom: 7%;
+    width: min(50vw, 340px);
+    height: min(50vw, 340px);
+    opacity: 0.92;
   }
 
   .intro-grid,
@@ -1218,11 +1218,11 @@ li + li {
   }
 
   .hero-interactive-model {
-    right: -3vw;
-    bottom: 6%;
-    width: 44vw;
-    height: 44vw;
-    opacity: 0.78;
+    right: -5vw;
+    bottom: 5%;
+    width: 58vw;
+    height: 58vw;
+    opacity: 0.82;
   }
 
   h1 {
