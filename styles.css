@@ -196,12 +196,12 @@ a {
 
 .hero-interactive-model {
   z-index: 1;
-  inset: auto clamp(18px, 5vw, 72px) 11% auto;
-  width: min(37vw, 520px);
-  height: min(37vw, 520px);
+  inset: auto clamp(18px, 5vw, 72px) 15% auto;
+  width: min(25vw, 340px);
+  height: min(25vw, 340px);
   cursor: grab;
-  filter: drop-shadow(0 24px 34px rgba(0, 0, 0, 0.22));
-  opacity: 0.92;
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.3));
+  opacity: 1;
   touch-action: none;
 }
 
@@ -1153,10 +1153,10 @@ li + li {
 
   .hero-interactive-model {
     right: 4vw;
-    bottom: 7%;
-    width: min(54vw, 360px);
-    height: min(54vw, 360px);
-    opacity: 0.58;
+    bottom: 9%;
+    width: min(40vw, 280px);
+    height: min(40vw, 280px);
+    opacity: 0.9;
   }
 
   .intro-grid,
@@ -1218,11 +1218,11 @@ li + li {
   }
 
   .hero-interactive-model {
-    right: -6vw;
-    bottom: 5%;
-    width: 66vw;
-    height: 66vw;
-    opacity: 0.34;
+    right: -3vw;
+    bottom: 6%;
+    width: 44vw;
+    height: 44vw;
+    opacity: 0.78;
   }
 
   h1 {

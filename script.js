@@ -72,11 +72,11 @@ if (metamaterialCanvas) {
 
   const drawStrut = (start, end, width, alpha = 1) => {
     const projected = [projectPoint(start), projectPoint(end)];
-    const depthAlpha = Math.min(1, Math.max(0.34, alpha * (0.78 + projected[1].z * 0.12)));
+    const depthAlpha = Math.min(1, Math.max(0.78, alpha * (0.92 + projected[1].z * 0.08)));
     const gradient = ctx.createLinearGradient(projected[0].x, projected[0].y, projected[1].x, projected[1].y);
-    gradient.addColorStop(0, `rgba(82, 88, 92, ${depthAlpha * 0.9})`);
+    gradient.addColorStop(0, `rgba(74, 79, 83, ${depthAlpha})`);
     gradient.addColorStop(0.42, `rgba(238, 241, 242, ${depthAlpha})`);
-    gradient.addColorStop(1, `rgba(112, 118, 122, ${depthAlpha * 0.92})`);
+    gradient.addColorStop(1, `rgba(104, 110, 114, ${depthAlpha})`);
 
     ctx.beginPath();
     projected.forEach((point, index) => {
@@ -92,14 +92,14 @@ if (metamaterialCanvas) {
     ctx.stroke();
     ctx.shadowBlur = 0;
 
-    ctx.strokeStyle = `rgba(255, 255, 255, ${depthAlpha * 0.42})`;
+    ctx.strokeStyle = `rgba(255, 255, 255, ${depthAlpha * 0.56})`;
     ctx.lineWidth = Math.max(1, width * 0.25);
     ctx.stroke();
   };
 
   const drawNode = (point, radius, alpha = 1) => {
     const projected = projectPoint(point);
-    const depthAlpha = Math.min(1, Math.max(0.42, alpha * (0.8 + projected.z * 0.1)));
+    const depthAlpha = Math.min(1, Math.max(0.84, alpha * (0.92 + projected.z * 0.08)));
     const r = Math.max(2.5, radius * projected.scale);
     const nodeGradient = ctx.createRadialGradient(
       projected.x - r * 0.36,
@@ -134,7 +134,7 @@ if (metamaterialCanvas) {
       canvasSize * 0.52,
       canvasSize * 0.48
     );
-    glow.addColorStop(0, "rgba(255, 255, 255, 0.22)");
+    glow.addColorStop(0, "rgba(255, 255, 255, 0.14)");
     glow.addColorStop(1, "rgba(255, 255, 255, 0)");
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, canvasSize, canvasSize);
@@ -209,14 +209,14 @@ if (metamaterialCanvas) {
       .sort((a, b) => a.z - b.z)
       .forEach((strut) => {
         const width = strut.type === "frame" ? canvasSize * 0.012 : canvasSize * 0.016;
-        const alpha = strut.type === "frame" ? 0.46 : 0.9;
+        const alpha = strut.type === "frame" ? 0.82 : 1;
         drawStrut(strut.start, strut.end, width, alpha);
       });
 
     nodes
       .map((point) => ({ point, z: projectPoint(point).z }))
       .sort((a, b) => a.z - b.z)
-      .forEach(({ point }) => drawNode(point, 0.045, 0.86));
+      .forEach(({ point }) => drawNode(point, 0.045, 1));
   };
 
   const resizeMetamaterial = () => {
