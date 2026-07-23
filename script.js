@@ -271,7 +271,7 @@ if (metamaterialCanvas) {
   };
 
   const animateMetamaterial = () => {
-    if (!pointer.active && !reduceMotion) targetRotation.y -= 0.0035;
+    if (!pointer.active && !reduceMotion) targetRotation.y -= 0.0008;
     rotation.x += (targetRotation.x - rotation.x) * 0.045;
     rotation.y += (targetRotation.y - rotation.y) * 0.045;
     drawMetamaterial();
