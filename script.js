@@ -70,14 +70,20 @@ if (metamaterialCanvas) {
     };
   };
 
-  const drawPath = (points, width, alpha = 1) => {
-    const projected = points.map(projectPoint);
+  const drawStrut = (start, end, width, alpha = 1) => {
+    const projected = [projectPoint(start), projectPoint(end)];
+    const depthAlpha = Math.min(1, Math.max(0.34, alpha * (0.78 + projected[1].z * 0.12)));
+    const gradient = ctx.createLinearGradient(projected[0].x, projected[0].y, projected[1].x, projected[1].y);
+    gradient.addColorStop(0, `rgba(82, 88, 92, ${depthAlpha * 0.9})`);
+    gradient.addColorStop(0.42, `rgba(238, 241, 242, ${depthAlpha})`);
+    gradient.addColorStop(1, `rgba(112, 118, 122, ${depthAlpha * 0.92})`);
+
     ctx.beginPath();
     projected.forEach((point, index) => {
       if (index === 0) ctx.moveTo(point.x, point.y);
       else ctx.lineTo(point.x, point.y);
     });
-    ctx.strokeStyle = `rgba(214, 218, 220, ${alpha})`;
+    ctx.strokeStyle = gradient;
     ctx.lineWidth = width;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -85,22 +91,35 @@ if (metamaterialCanvas) {
     ctx.shadowBlur = width * 1.2;
     ctx.stroke();
     ctx.shadowBlur = 0;
-    ctx.strokeStyle = `rgba(82, 88, 92, ${alpha * 0.7})`;
-    ctx.lineWidth = Math.max(1, width * 0.28);
+
+    ctx.strokeStyle = `rgba(255, 255, 255, ${depthAlpha * 0.42})`;
+    ctx.lineWidth = Math.max(1, width * 0.25);
     ctx.stroke();
   };
 
-  const ringPoints = (face, a, b, radius) => {
-    const points = [];
-    for (let i = 0; i <= 44; i += 1) {
-      const angle = (i / 44) * Math.PI * 2;
-      const u = a + Math.cos(angle) * radius;
-      const v = b + Math.sin(angle) * radius;
-      if (face === "front") points.push([u, v, 1]);
-      if (face === "right") points.push([1, v, u]);
-      if (face === "top") points.push([u, -1, v]);
-    }
-    return points;
+  const drawNode = (point, radius, alpha = 1) => {
+    const projected = projectPoint(point);
+    const depthAlpha = Math.min(1, Math.max(0.42, alpha * (0.8 + projected.z * 0.1)));
+    const r = Math.max(2.5, radius * projected.scale);
+    const nodeGradient = ctx.createRadialGradient(
+      projected.x - r * 0.36,
+      projected.y - r * 0.42,
+      r * 0.1,
+      projected.x,
+      projected.y,
+      r
+    );
+    nodeGradient.addColorStop(0, `rgba(255, 255, 255, ${depthAlpha})`);
+    nodeGradient.addColorStop(0.48, `rgba(190, 195, 197, ${depthAlpha})`);
+    nodeGradient.addColorStop(1, `rgba(70, 76, 80, ${depthAlpha})`);
+
+    ctx.beginPath();
+    ctx.fillStyle = nodeGradient;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.24)";
+    ctx.shadowBlur = r * 0.8;
+    ctx.arc(projected.x, projected.y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
   };
 
   const drawMetamaterial = () => {
@@ -120,37 +139,84 @@ if (metamaterialCanvas) {
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
-    const edges = [
-      [[-1, -1, -1], [1, -1, -1]],
-      [[-1, 1, -1], [1, 1, -1]],
-      [[-1, -1, 1], [1, -1, 1]],
-      [[-1, 1, 1], [1, 1, 1]],
-      [[-1, -1, -1], [-1, 1, -1]],
-      [[1, -1, -1], [1, 1, -1]],
-      [[-1, -1, 1], [-1, 1, 1]],
-      [[1, -1, 1], [1, 1, 1]],
-      [[-1, -1, -1], [-1, -1, 1]],
-      [[1, -1, -1], [1, -1, 1]],
-      [[-1, 1, -1], [-1, 1, 1]],
-      [[1, 1, -1], [1, 1, 1]]
-    ];
+    const nodeMap = new Map();
+    const strutMap = new Map();
+    const nodes = [];
+    const struts = [];
+    const grid = [-1, -0.33, 0.33, 1];
+    const centers = [-0.665, 0, 0.665];
 
-    const rings = [];
-    ["front", "right", "top"].forEach((face) => {
-      [-0.5, 0.5].forEach((a) => {
-        [-0.5, 0.5].forEach((b) => {
-          rings.push({ face, points: ringPoints(face, a, b, 0.32) });
-        });
+    const keyForPoint = (point) => point.map((value) => value.toFixed(3)).join(",");
+    const addNode = (point) => {
+      const key = keyForPoint(point);
+      if (!nodeMap.has(key)) {
+        nodeMap.set(key, point);
+        nodes.push(point);
+      }
+      return nodeMap.get(key);
+    };
+    const addStrut = (start, end, type = "lattice") => {
+      const a = addNode(start);
+      const b = addNode(end);
+      const key = [keyForPoint(a), keyForPoint(b)].sort().join("|");
+      if (!strutMap.has(key)) {
+        const z = (projectPoint(a).z + projectPoint(b).z) / 2;
+        const length = Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+        const item = { start: a, end: b, type, z, length };
+        strutMap.set(key, item);
+        struts.push(item);
+      }
+    };
+
+    for (let ix = 0; ix < grid.length; ix += 1) {
+      for (let iy = 0; iy < grid.length; iy += 1) {
+        for (let iz = 0; iz < grid.length; iz += 1) {
+          addNode([grid[ix], grid[iy], grid[iz]]);
+        }
+      }
+    }
+
+    for (let ix = 0; ix < centers.length; ix += 1) {
+      for (let iy = 0; iy < centers.length; iy += 1) {
+        for (let iz = 0; iz < centers.length; iz += 1) {
+          const center = [centers[ix], centers[iy], centers[iz]];
+          const corners = [
+            [grid[ix], grid[iy], grid[iz]],
+            [grid[ix + 1], grid[iy], grid[iz]],
+            [grid[ix], grid[iy + 1], grid[iz]],
+            [grid[ix + 1], grid[iy + 1], grid[iz]],
+            [grid[ix], grid[iy], grid[iz + 1]],
+            [grid[ix + 1], grid[iy], grid[iz + 1]],
+            [grid[ix], grid[iy + 1], grid[iz + 1]],
+            [grid[ix + 1], grid[iy + 1], grid[iz + 1]]
+          ];
+          corners.forEach((corner) => addStrut(center, corner, "diagonal"));
+        }
+      }
+    }
+
+    for (let i = 0; i < grid.length - 1; i += 1) {
+      for (let j = 0; j < grid.length; j += 1) {
+        for (let k = 0; k < grid.length; k += 1) {
+          addStrut([grid[i], grid[j], grid[k]], [grid[i + 1], grid[j], grid[k]], "frame");
+          addStrut([grid[j], grid[i], grid[k]], [grid[j], grid[i + 1], grid[k]], "frame");
+          addStrut([grid[j], grid[k], grid[i]], [grid[j], grid[k], grid[i + 1]], "frame");
+        }
+      }
+    }
+
+    struts
+      .sort((a, b) => a.z - b.z)
+      .forEach((strut) => {
+        const width = strut.type === "frame" ? canvasSize * 0.012 : canvasSize * 0.016;
+        const alpha = strut.type === "frame" ? 0.46 : 0.9;
+        drawStrut(strut.start, strut.end, width, alpha);
       });
-      rings.push({ face, points: ringPoints(face, 0, 0, 0.38) });
-    });
 
-    const drawItems = [
-      ...edges.map((points) => ({ points, width: canvasSize * 0.028, z: points.reduce((sum, point) => sum + projectPoint(point).z, 0) / 2 })),
-      ...rings.map((ring) => ({ points: ring.points, width: canvasSize * 0.022, z: ring.points.reduce((sum, point) => sum + projectPoint(point).z, 0) / ring.points.length }))
-    ].sort((a, b) => a.z - b.z);
-
-    drawItems.forEach((item) => drawPath(item.points, item.width, 0.86));
+    nodes
+      .map((point) => ({ point, z: projectPoint(point).z }))
+      .sort((a, b) => a.z - b.z)
+      .forEach(({ point }) => drawNode(point, 0.045, 0.86));
   };
 
   const resizeMetamaterial = () => {
