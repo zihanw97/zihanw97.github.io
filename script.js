@@ -228,17 +228,28 @@ if (metamaterialCanvas) {
     addStrut(faceCenters[2], faceCenters[3], "spine");
     addStrut(faceCenters[4], faceCenters[5], "spine");
 
-    struts
-      .sort((a, b) => a.z - b.z)
-      .forEach((strut) => {
-        const width = strut.type === "spine" ? canvasSize * 0.017 : canvasSize * 0.015;
-        drawStrut(strut.start, strut.end, width);
-      });
+    const drawItems = [
+      ...struts.map((strut) => ({
+        kind: "strut",
+        z: (projectPoint(strut.start).z + projectPoint(strut.end).z) / 2,
+        strut
+      })),
+      ...nodes.map((point) => ({
+        kind: "node",
+        z: projectPoint(point).z,
+        point
+      }))
+    ].sort((a, b) => a.z - b.z);
 
-    nodes
-      .map((point) => ({ point, z: projectPoint(point).z }))
-      .sort((a, b) => a.z - b.z)
-      .forEach(({ point }) => drawNode(point, 0.052));
+    drawItems.forEach((item) => {
+      if (item.kind === "node") {
+        drawNode(item.point, 0.044);
+        return;
+      }
+
+      const width = item.strut.type === "spine" ? canvasSize * 0.017 : canvasSize * 0.015;
+      drawStrut(item.strut.start, item.strut.end, width);
+    });
   };
 
   const resizeMetamaterial = () => {
