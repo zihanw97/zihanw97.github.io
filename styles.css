@@ -20,6 +20,43 @@ html {
   scroll-behavior: smooth;
 }
 
+@keyframes softFloat {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(1.2deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes slowFocus {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.045);
+  }
+}
+
+@keyframes softGlow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translate3d(-6px, 6px, 0) scale(0.96);
+  }
+
+  50% {
+    opacity: 0.88;
+    transform: translate3d(4px, -4px, 0) scale(1.04);
+  }
+}
+
 body {
   margin: 0;
   color: var(--ink);
@@ -70,6 +107,13 @@ a {
   border: 1px solid var(--line);
   border-radius: 6px;
   object-fit: cover;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.brand:hover .brand-mark,
+.brand:focus-visible .brand-mark {
+  box-shadow: 0 10px 24px rgba(31, 35, 40, 0.14);
+  transform: translateY(-2px) rotate(-2deg);
 }
 
 .nav {
@@ -82,11 +126,25 @@ a {
 }
 
 .nav a {
+  position: relative;
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   padding: 7px 5px;
   text-decoration: none;
+}
+
+.nav a::after {
+  position: absolute;
+  right: 5px;
+  bottom: 6px;
+  left: 5px;
+  height: 2px;
+  background: currentColor;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
 }
 
 .nav a.active {
@@ -95,6 +153,12 @@ a {
 
 .nav a:hover {
   color: var(--gold-bright);
+}
+
+.nav a:hover::after,
+.nav a:focus-visible::after,
+.nav a.active::after {
+  transform: scaleX(1);
 }
 
 .site-header.is-scrolled .nav a.active,
@@ -122,6 +186,7 @@ a {
 .hero-image {
   object-fit: cover;
   object-position: center;
+  animation: slowFocus 18s ease-in-out infinite alternate;
 }
 
 .hero-scrim {
@@ -133,6 +198,19 @@ a {
   z-index: 1;
   max-width: 760px;
   color: var(--white);
+  animation: heroRise 720ms ease both;
+}
+
+@keyframes heroRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-hero {
@@ -229,6 +307,13 @@ h3 {
   padding: 10px 18px;
   font-weight: 760;
   text-decoration: none;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.button:hover,
+.button:focus-visible {
+  box-shadow: 0 12px 28px rgba(31, 35, 40, 0.18);
+  transform: translateY(-2px);
 }
 
 .button.primary {
@@ -244,6 +329,19 @@ h3 {
   max-width: 1180px;
   margin: 0 auto;
   padding: 86px clamp(18px, 5vw, 48px);
+}
+
+.motion-ready .section,
+.motion-ready .page-hero {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+
+.motion-ready .section.is-visible,
+.motion-ready .page-hero.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .section[id] {
@@ -378,6 +476,8 @@ dd {
   border: 1px solid var(--line);
   border-radius: 8px;
   object-fit: cover;
+  animation: softFloat 5.8s ease-in-out infinite;
+  box-shadow: 0 14px 34px rgba(31, 35, 40, 0.1);
 }
 
 .home-pi-summary > img {
@@ -388,6 +488,12 @@ dd {
   border-radius: 8px;
   object-fit: cover;
   object-position: center 32%;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.home-pi-summary > img:hover {
+  box-shadow: 0 14px 34px rgba(31, 35, 40, 0.12);
+  transform: translateY(-3px);
 }
 
 .home-pi-summary > div > p:not(.eyebrow) {
@@ -457,6 +563,22 @@ dd {
   transition: opacity 180ms ease, transform 240ms ease;
 }
 
+.page-card::after {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  width: 38px;
+  height: 38px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0) 62%);
+  content: "";
+  opacity: 0;
+  transform: scale(0.62);
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+
 .page-card > * {
   position: relative;
   z-index: 1;
@@ -474,7 +596,7 @@ dd {
 .page-card:focus-visible {
   color: var(--white);
   box-shadow: var(--shadow);
-  transform: translateY(-2px);
+  transform: translateY(-4px) rotate(-0.25deg);
 }
 
 .page-card:hover::before,
@@ -486,6 +608,13 @@ dd {
 .page-card:hover .number,
 .page-card:focus-visible .number {
   color: var(--gold-bright);
+}
+
+.page-card:hover::after,
+.page-card:focus-visible::after {
+  animation: softGlow 2.4s ease-in-out infinite;
+  opacity: 0.7;
+  transform: scale(1);
 }
 
 .page-card-research {
@@ -597,7 +726,7 @@ dd {
 .research-direction-card:focus-visible {
   border-color: var(--blue);
   box-shadow: var(--shadow);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 
 .research-direction-card:hover::before,
@@ -1084,5 +1213,22 @@ li + li {
   .direction-nav a:last-child {
     margin-left: 0;
     text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .motion-ready .section,
+  .motion-ready .page-hero {
+    opacity: 1;
+    transform: none;
   }
 }
