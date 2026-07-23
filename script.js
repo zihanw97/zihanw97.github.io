@@ -60,19 +60,26 @@ if (metamaterialCanvas) {
 
   const projectPoint = (point) => {
     const [x, y, z] = rotatePoint(point, rotation.x, rotation.y);
-    const depth = 3.15 + z;
-    const scale = canvasSize * 0.58 / depth;
+    const cameraDistance = 3.35;
+    const focalLength = canvasSize * 0.62;
+    const depth = cameraDistance - z;
+    const scale = focalLength / depth;
     return {
       x: canvasSize / 2 + x * scale,
       y: canvasSize / 2 + y * scale,
       z,
-      scale
+      scale,
+      depth
     };
   };
 
   const drawStrut = (start, end, width, alpha = 1) => {
     const projected = [projectPoint(start), projectPoint(end)];
-    const depthAlpha = Math.min(1, Math.max(0.78, alpha * (0.92 + projected[1].z * 0.08)));
+    const averageZ = (projected[0].z + projected[1].z) / 2;
+    const nominalScale = (canvasSize * 0.62) / 3.35;
+    const scaleFactor = ((projected[0].scale + projected[1].scale) / 2) / nominalScale;
+    const strokeWidth = width * Math.min(1.42, Math.max(0.72, scaleFactor));
+    const depthAlpha = Math.min(1, Math.max(0.76, alpha * (0.9 + averageZ * 0.09)));
     const gradient = ctx.createLinearGradient(projected[0].x, projected[0].y, projected[1].x, projected[1].y);
     gradient.addColorStop(0, `rgba(74, 79, 83, ${depthAlpha})`);
     gradient.addColorStop(0.42, `rgba(238, 241, 242, ${depthAlpha})`);
@@ -84,16 +91,16 @@ if (metamaterialCanvas) {
       else ctx.lineTo(point.x, point.y);
     });
     ctx.strokeStyle = gradient;
-    ctx.lineWidth = width;
+    ctx.lineWidth = strokeWidth;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.shadowColor = "rgba(0, 0, 0, 0.28)";
-    ctx.shadowBlur = width * 1.2;
+    ctx.shadowBlur = strokeWidth * 1.1;
     ctx.stroke();
     ctx.shadowBlur = 0;
 
     ctx.strokeStyle = `rgba(255, 255, 255, ${depthAlpha * 0.56})`;
-    ctx.lineWidth = Math.max(1, width * 0.25);
+    ctx.lineWidth = Math.max(1, strokeWidth * 0.25);
     ctx.stroke();
   };
 
