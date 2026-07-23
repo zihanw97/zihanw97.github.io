@@ -34,16 +34,6 @@ html {
   }
 }
 
-@keyframes slowFocus {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(1.045);
-  }
-}
-
 @keyframes softGlow {
   0%,
   100% {
@@ -187,7 +177,6 @@ a {
 .hero-image {
   object-fit: cover;
   object-position: center;
-  animation: slowFocus 18s ease-in-out infinite alternate;
 }
 
 .hero-scrim {
