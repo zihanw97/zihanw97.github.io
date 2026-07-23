@@ -73,17 +73,20 @@ if (metamaterialCanvas) {
     };
   };
 
-  const drawStrut = (start, end, width, alpha = 1) => {
+  const drawStrut = (start, end, width) => {
     const projected = [projectPoint(start), projectPoint(end)];
     const averageZ = (projected[0].z + projected[1].z) / 2;
     const nominalScale = (canvasSize * 0.62) / 3.35;
     const scaleFactor = ((projected[0].scale + projected[1].scale) / 2) / nominalScale;
     const strokeWidth = width * Math.min(1.42, Math.max(0.72, scaleFactor));
-    const depthAlpha = Math.min(1, Math.max(0.76, alpha * (0.9 + averageZ * 0.09)));
+    const shade = Math.min(1, Math.max(0, 0.5 + averageZ * 0.12));
+    const dark = 66 + shade * 18;
+    const mid = 164 + shade * 26;
+    const light = 224 + shade * 18;
     const gradient = ctx.createLinearGradient(projected[0].x, projected[0].y, projected[1].x, projected[1].y);
-    gradient.addColorStop(0, `rgba(74, 79, 83, ${depthAlpha})`);
-    gradient.addColorStop(0.42, `rgba(238, 241, 242, ${depthAlpha})`);
-    gradient.addColorStop(1, `rgba(104, 110, 114, ${depthAlpha})`);
+    gradient.addColorStop(0, `rgb(${dark}, ${dark + 5}, ${dark + 9})`);
+    gradient.addColorStop(0.42, `rgb(${light}, ${light + 2}, ${light + 3})`);
+    gradient.addColorStop(1, `rgb(${mid}, ${mid + 5}, ${mid + 8})`);
 
     ctx.beginPath();
     projected.forEach((point, index) => {
@@ -99,14 +102,17 @@ if (metamaterialCanvas) {
     ctx.stroke();
     ctx.shadowBlur = 0;
 
-    ctx.strokeStyle = `rgba(255, 255, 255, ${depthAlpha * 0.56})`;
+    ctx.strokeStyle = "rgb(255, 255, 255)";
     ctx.lineWidth = Math.max(1, strokeWidth * 0.25);
     ctx.stroke();
   };
 
-  const drawNode = (point, radius, alpha = 1) => {
+  const drawNode = (point, radius) => {
     const projected = projectPoint(point);
-    const depthAlpha = Math.min(1, Math.max(0.84, alpha * (0.92 + projected.z * 0.08)));
+    const shade = Math.min(1, Math.max(0, 0.5 + projected.z * 0.12));
+    const dark = 58 + shade * 20;
+    const mid = 176 + shade * 24;
+    const light = 238 + shade * 12;
     const r = Math.max(2.5, radius * projected.scale);
     const nodeGradient = ctx.createRadialGradient(
       projected.x - r * 0.36,
@@ -116,9 +122,9 @@ if (metamaterialCanvas) {
       projected.y,
       r
     );
-    nodeGradient.addColorStop(0, `rgba(255, 255, 255, ${depthAlpha})`);
-    nodeGradient.addColorStop(0.48, `rgba(190, 195, 197, ${depthAlpha})`);
-    nodeGradient.addColorStop(1, `rgba(70, 76, 80, ${depthAlpha})`);
+    nodeGradient.addColorStop(0, `rgb(${light}, ${light}, ${light})`);
+    nodeGradient.addColorStop(0.48, `rgb(${mid}, ${mid + 3}, ${mid + 6})`);
+    nodeGradient.addColorStop(1, `rgb(${dark}, ${dark + 5}, ${dark + 9})`);
 
     ctx.beginPath();
     ctx.fillStyle = nodeGradient;
@@ -226,14 +232,13 @@ if (metamaterialCanvas) {
       .sort((a, b) => a.z - b.z)
       .forEach((strut) => {
         const width = strut.type === "spine" ? canvasSize * 0.017 : canvasSize * 0.015;
-        const alpha = strut.type === "frame" ? 0.9 : 1;
-        drawStrut(strut.start, strut.end, width, alpha);
+        drawStrut(strut.start, strut.end, width);
       });
 
     nodes
       .map((point) => ({ point, z: projectPoint(point).z }))
       .sort((a, b) => a.z - b.z)
-      .forEach(({ point }) => drawNode(point, 0.052, 1));
+      .forEach(({ point }) => drawNode(point, 0.052));
   };
 
   const resizeMetamaterial = () => {

@@ -1162,7 +1162,7 @@ li + li {
     bottom: 7%;
     width: min(50vw, 340px);
     height: min(50vw, 340px);
-    opacity: 0.92;
+    opacity: 1;
   }
 
   .hero-rotate-hint {
@@ -1233,7 +1233,7 @@ li + li {
     bottom: 5%;
     width: 58vw;
     height: 58vw;
-    opacity: 0.82;
+    opacity: 1;
   }
 
   .hero-rotate-hint {
