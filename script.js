@@ -43,6 +43,7 @@ if (metamaterialCanvas) {
   const pointer = { active: false, x: 0, y: 0 };
   const rotation = { x: -0.18, y: -0.62 };
   const targetRotation = { x: -0.18, y: -0.62 };
+  const renderOffset = { x: 0, y: 0 };
   let canvasSize = 0;
 
   const rotatePoint = ([x, y, z], rx, ry) => {
@@ -64,8 +65,8 @@ if (metamaterialCanvas) {
     const depth = cameraDistance - z;
     const scale = focalLength / depth;
     return {
-      x: canvasSize / 2 + x * scale,
-      y: canvasSize / 2 + y * scale,
+      x: canvasSize / 2 + x * scale + renderOffset.x,
+      y: canvasSize / 2 + y * scale + renderOffset.y,
       z,
       scale,
       depth
@@ -136,6 +137,8 @@ if (metamaterialCanvas) {
 
   const drawMetamaterial = () => {
     if (!ctx) return;
+    renderOffset.x = 0;
+    renderOffset.y = 0;
     ctx.clearRect(0, 0, canvasSize, canvasSize);
 
     const glow = ctx.createRadialGradient(
@@ -226,6 +229,19 @@ if (metamaterialCanvas) {
     addStrut(faceCenters[0], faceCenters[1], "spine");
     addStrut(faceCenters[2], faceCenters[3], "spine");
     addStrut(faceCenters[4], faceCenters[5], "spine");
+
+    const projectedNodes = nodes.map(projectPoint);
+    const bounds = projectedNodes.reduce(
+      (box, point) => ({
+        minX: Math.min(box.minX, point.x),
+        maxX: Math.max(box.maxX, point.x),
+        minY: Math.min(box.minY, point.y),
+        maxY: Math.max(box.maxY, point.y)
+      }),
+      { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity }
+    );
+    renderOffset.x = canvasSize / 2 - (bounds.minX + bounds.maxX) / 2;
+    renderOffset.y = canvasSize / 2 - (bounds.minY + bounds.maxY) / 2;
 
     const drawItems = [
       ...struts.map((strut) => ({
