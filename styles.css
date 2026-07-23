@@ -509,7 +509,7 @@ dd {
 }
 
 .page-card-join {
-  --card-image: url("assets/aim2-lab-icon.png");
+  --card-image: url("assets/dance-lab-icon.svg");
 }
 
 .page-card-people::before {
