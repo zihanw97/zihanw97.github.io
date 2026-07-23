@@ -40,10 +40,9 @@ if (metamaterialCanvas) {
   if (!ctx) {
     metamaterialCanvas.remove();
   } else {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const pointer = { active: false, x: 0, y: 0 };
-  const rotation = { x: -0.22, y: 0.42 };
-  const targetRotation = { x: -0.22, y: 0.42 };
+  const rotation = { x: -0.18, y: -0.62 };
+  const targetRotation = { x: -0.18, y: -0.62 };
   let canvasSize = 0;
 
   const rotatePoint = ([x, y, z], rx, ry) => {
@@ -264,18 +263,16 @@ if (metamaterialCanvas) {
 
   const updateTargetFromPointer = (event) => {
     const rect = metamaterialCanvas.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-    targetRotation.y = x * Math.PI * 0.78;
-    targetRotation.x = -0.22 - y * Math.PI * 0.34;
-  };
-
-  const animateMetamaterial = () => {
-    if (!pointer.active && !reduceMotion) targetRotation.y -= 0.0008;
-    rotation.x += (targetRotation.x - rotation.x) * 0.045;
-    rotation.y += (targetRotation.y - rotation.y) * 0.045;
+    const dx = (event.clientX - pointer.x) / rect.width;
+    const dy = (event.clientY - pointer.y) / rect.height;
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    targetRotation.y += dx * Math.PI * 0.42;
+    targetRotation.x += dy * Math.PI * 0.26;
+    targetRotation.x = Math.max(-0.82, Math.min(0.56, targetRotation.x));
+    rotation.x = targetRotation.x;
+    rotation.y = targetRotation.y;
     drawMetamaterial();
-    if (!reduceMotion) window.requestAnimationFrame(animateMetamaterial);
   };
 
   metamaterialCanvas.addEventListener("pointerdown", (event) => {
@@ -283,7 +280,6 @@ if (metamaterialCanvas) {
     pointer.x = event.clientX;
     pointer.y = event.clientY;
     metamaterialCanvas.setPointerCapture(event.pointerId);
-    updateTargetFromPointer(event);
   });
 
   metamaterialCanvas.addEventListener("pointermove", (event) => {
@@ -300,8 +296,11 @@ if (metamaterialCanvas) {
     pointer.active = false;
   });
 
+  metamaterialCanvas.addEventListener("pointercancel", () => {
+    pointer.active = false;
+  });
+
   window.addEventListener("resize", resizeMetamaterial, { passive: true });
   resizeMetamaterial();
-  animateMetamaterial();
   }
 }

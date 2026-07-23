@@ -32,13 +32,15 @@
       <section class="hero" aria-label="CoDesign Lab introduction">
         <img class="hero-image" src="assets/codesign-interactive-hero.jpg" alt="AI-enabled computational co-design, metamaterial, and manufacturing research visual" />
         <div class="hero-scrim"></div>
-        <canvas
-          class="hero-interactive-model"
-          data-metamaterial-canvas
-          aria-label="Interactive rotating gray engineering lattice model"
-          role="img"
-        ></canvas>
-        <span class="hero-rotate-hint" aria-hidden="true">Drag to rotate</span>
+        <div class="hero-interactive-wrap">
+          <canvas
+            class="hero-interactive-model"
+            data-metamaterial-canvas
+            aria-label="Interactive rotating gray engineering lattice model"
+            role="img"
+          ></canvas>
+          <span class="hero-rotate-hint" aria-hidden="true">Drag to rotate</span>
+        </div>
         <div class="hero-content">
           <p class="eyebrow">Computational Design Laboratory &middot; Oakland University</p>
           <h1>CoDesign Lab</h1>
