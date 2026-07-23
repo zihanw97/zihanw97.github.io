@@ -287,7 +287,7 @@ if (metamaterialCanvas) {
   });
 
   metamaterialCanvas.addEventListener("pointermove", (event) => {
-    if (!pointer.active && event.pointerType === "touch") return;
+    if (!pointer.active) return;
     updateTargetFromPointer(event);
   });
 
