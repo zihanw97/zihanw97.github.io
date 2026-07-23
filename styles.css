@@ -209,6 +209,23 @@ a {
   cursor: grabbing;
 }
 
+.hero-rotate-hint {
+  position: absolute;
+  right: clamp(18px, 5vw, 72px);
+  bottom: calc(11% - 34px);
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: rgba(255, 255, 255, 0.86);
+  background: rgba(31, 35, 40, 0.36);
+  backdrop-filter: blur(8px);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
 .hero-content {
   position: relative;
   z-index: 2;
@@ -1159,6 +1176,11 @@ li + li {
     opacity: 0.92;
   }
 
+  .hero-rotate-hint {
+    right: 4vw;
+    bottom: calc(7% - 30px);
+  }
+
   .intro-grid,
   .home-info-grid,
   .research-grid,
@@ -1223,6 +1245,12 @@ li + li {
     width: 58vw;
     height: 58vw;
     opacity: 0.82;
+  }
+
+  .hero-rotate-hint {
+    right: 18px;
+    bottom: 18px;
+    font-size: 0.72rem;
   }
 
   h1 {
