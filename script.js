@@ -243,12 +243,12 @@ if (metamaterialCanvas) {
     const rect = metamaterialCanvas.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
-    targetRotation.y = x * Math.PI * 1.45;
+    targetRotation.y = -x * Math.PI * 1.45;
     targetRotation.x = -0.22 + y * Math.PI * 0.55;
   };
 
   const animateMetamaterial = () => {
-    if (!pointer.active && !reduceMotion) targetRotation.y += 0.006;
+    if (!pointer.active && !reduceMotion) targetRotation.y -= 0.006;
     rotation.x += (targetRotation.x - rotation.x) * 0.08;
     rotation.y += (targetRotation.y - rotation.y) * 0.08;
     drawMetamaterial();
