@@ -509,7 +509,7 @@ dd {
 }
 
 .page-card-join {
-  --card-image: url("assets/codesign-lab-icon.svg");
+  --card-image: url("assets/codesign-lab-icon.png");
 }
 
 .page-card-people::before {
