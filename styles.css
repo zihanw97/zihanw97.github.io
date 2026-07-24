@@ -186,8 +186,8 @@ a {
 .hero-interactive-wrap {
   z-index: 1;
   inset: auto clamp(18px, 5vw, 72px) 11% auto;
-  width: min(34vw, 480px);
-  height: min(34vw, 480px);
+  width: min(28vw, 390px);
+  height: min(28vw, 390px);
   pointer-events: none;
 }
 
@@ -1168,8 +1168,8 @@ li + li {
   .hero-interactive-wrap {
     right: 4vw;
     bottom: 7%;
-    width: min(50vw, 340px);
-    height: min(50vw, 340px);
+    width: min(42vw, 285px);
+    height: min(42vw, 285px);
   }
 
   .intro-grid,
@@ -1233,8 +1233,8 @@ li + li {
   .hero-interactive-wrap {
     right: -5vw;
     bottom: 5%;
-    width: 58vw;
-    height: 58vw;
+    width: 48vw;
+    height: 48vw;
   }
 
   .hero-rotate-hint {
