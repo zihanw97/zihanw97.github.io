@@ -41,8 +41,8 @@ if (metamaterialCanvas) {
     metamaterialCanvas.remove();
   } else {
   const pointer = { active: false, x: 0, y: 0 };
-  const rotation = { x: -0.18, y: -0.62 };
-  const targetRotation = { x: -0.18, y: -0.62 };
+  const rotation = { x: -0.12, y: -0.16 };
+  const targetRotation = { x: -0.12, y: -0.16 };
   const renderOffset = { x: 0, y: 0 };
   let canvasSize = 0;
 
